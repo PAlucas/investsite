@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: flask_app
+    network_mode: host
+    restart: always
+    # When using network_mode: host, port mapping is not needed
+    # as the container shares the host's network stack
+    environment:
+      - PYTHONUNBUFFERED=1  # Ensures Python output is sent straight to the container log without buffering
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=investing
+      - POSTGRES_HOST=localhost
+      - POSTGRES_PORT=5432
+      - SECRET_KEY=your-secret-key-here
+      - FLASK_ENV=development  # Enable development mode for more verbose logging
+      - FLASK_DEBUG=1  # Enable Flask debug mode
+      - FLASK_APP=app.py  # Specify the Flask application
+      - PYTHONDONTWRITEBYTECODE=1  # Don't write .pyc files
+    depends_on:
+      - db
+    volumes:
+      - .:/app
+    # Override the CMD in Dockerfile to enable debugging and live reloading
+    command: >
+      sh -c "python -m debugpy --listen 0.0.0.0:5678 --wait-for-client app.py"
+    # Expose both the Flask app port and the debugpy port
+    ports:
+      - "5000:5000"
+      - "5678:5678"
+
+  db:
+    image: postgres:14
+    container_name: postgres_db
+    restart: always
+    # When app uses host network, db should still use bridge (default) network
+    # but we need to update the POSTGRES_HOST in the app service
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=investing
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
