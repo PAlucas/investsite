@@ -26,7 +26,7 @@ services:
       - .:/app
     # Override the CMD in Dockerfile to enable debugging and live reloading
     command: >
-      sh -c "python -m debugpy --listen 0.0.0.0:5678 --wait-for-client app.py"
+      sh -c "python -m debugpy --listen 0.0.0.0:5678 app.py"
     # Expose both the Flask app port and the debugpy port
     ports:
       - "5000:5000"

@@ -21,7 +21,7 @@ config = context.config
 # Set up database URL from environment variables
 postgres_user = os.getenv('POSTGRES_USER', 'postgres')
 postgres_password = os.getenv('POSTGRES_PASSWORD', 'postgres')
-postgres_host = os.getenv('POSTGRES_HOST', 'localhost')
+postgres_host = os.getenv('POSTGRES_HOST', '192.168.1.102')
 postgres_port = os.getenv('POSTGRES_PORT', '5432')
 postgres_db = os.getenv('POSTGRES_DB', 'investing')
 

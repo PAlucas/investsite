@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 from flasgger import Swagger
 import sys
 import logging
-
+from lib.utils.scheduler  import Scheduler
 # Add the project root to the Python path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -15,9 +15,6 @@ from lib.db.session_manager import set_session_factory
 
 # Import logging configuration
 from lib.utils.logging_config import set_log_level, set_log_format, configure_logging
-
-# Import scheduler
-from lib.utils.scheduler import SchedulerService
 
 # Configure logging based on environment
 if os.environ.get('FLASK_ENV') == 'development':
@@ -100,9 +97,7 @@ def create_app():
     
     # Initialize Swagger
     Swagger(app, config=swagger_config, template=swagger_template)
-    
-    # Initialize scheduler
-    scheduler = SchedulerService(app)
+    Scheduler().init_scheduler()
     
     # Register base route
     @app.route('/')
@@ -146,4 +141,4 @@ def create_app():
 app = create_app()
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=os.getenv('FLASK_DEBUG', False))

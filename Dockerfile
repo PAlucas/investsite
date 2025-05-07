@@ -1,4 +1,4 @@
-FROM python:3.9-slim
+FROM python:3.12-bullseye
 
 WORKDIR /app
 
@@ -22,7 +22,7 @@ RUN pip install --no-cache-dir debugpy watchdog
 COPY . .
 
 # Expose ports for the Flask application and debugger
-EXPOSE 5000 5678
+EXPOSE 5000
 
 # Command to run the application with live reloading and debugging enabled
-CMD ["python", "-m", "debugpy", "--listen", "0.0.0.0:5678", "--wait-for-client", "app.py"]
+CMD ["python", "app.py"]
