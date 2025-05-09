@@ -13,6 +13,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../.
 # Import the Base class and all models
 from lib.db.models.base import Base
 from lib.db.models import stocks
+from lib.db.models.historical_stock_data import HistoricalStockData
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

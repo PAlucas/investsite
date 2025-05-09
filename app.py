@@ -91,9 +91,11 @@ def create_app():
     # Register blueprints
     from routes.stocks_routes_class import stocks_bp
     from routes.infomoney_news_routes import infomoney_news_bp
+    from routes.historical_stock_data_routes import historical_data_bp
     
     app.register_blueprint(stocks_bp, url_prefix='/api/stocks')
     app.register_blueprint(infomoney_news_bp, url_prefix='/api/news')
+    app.register_blueprint(historical_data_bp, url_prefix='/api/historical-data')
     
     # Initialize Swagger
     Swagger(app, config=swagger_config, template=swagger_template)
