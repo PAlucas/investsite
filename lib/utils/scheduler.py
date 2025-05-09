@@ -23,6 +23,7 @@ class Scheduler:
         requests.get(url=base_url + "/news/save-stock-urls", headers=headers)
         requests.post(url=base_url + "/news/fetch",  headers=headers)
         requests.post(url=base_url + "/news/update-content",  headers=headers)
+        requests.get(url=base_url + "/historical-data/fetch?pages=2",  headers=headers)
         
     def init_scheduler(self):
         logger.info('Initializing scheduler')
